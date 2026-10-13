@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 use Core\Controller;
@@ -7,13 +8,13 @@ use App\Models\Admin\Categorias;
 
 class ProductosController extends Controller
 {
-    
+
     protected $categoriasModel;
-    public function _construct()
+    public function __construct()
     {
-      $this->categoriasModel = new Categorias();
+        $this->categoriasModel = new Categorias();
     }
-   
+
 
     //muestra pagina principal de listado de productos
 
@@ -25,16 +26,18 @@ class ProductosController extends Controller
         ]);
         exit;
     }
-    public function nuevo(){
+    public function nuevo()
+    {
         //estas categorias se utilizan para llenar en selector del formulario
-        $categorias = $this->categoriasModel->categorias_select(); 
+        $categorias = $this->categoriasModel->categorias_select();
+        //var_dump($categorias); // Agrega esta línea para depuración//
         //envia a la vista los datos necesarios para renderizar el formulaio 
         $this->view('admin/productos/nuevo', [
             'isAdmin'   => true,
             'module'    => 'admin',
             'pageTitle' => 'Nuevo Producto',
             'module'    => 'admin',
-            'pageTitle' => 'Productos'
+            'pageTitle' => 'Productos',
             'categorias' => $categorias
         ]);
         exit;

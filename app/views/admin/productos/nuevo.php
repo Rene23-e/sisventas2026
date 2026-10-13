@@ -4,33 +4,42 @@
     <form action="" method="post">
         <div class="row">
             <div class="col-md-4 form-group">
-                <label for="">CATEGORIA :</label>
-                <select name="" id="">
-                    <option value="">hola</option>
-                    <option value="">hola</option>
-                    <option value="">hola</option>
+                <label for="">Categoria :</label>
+                <select name="categoria_id" id="categoria_id" class="form-control" required>
+                    <?php foreach($categorias as $categoria): ?>
+                        <option value="<?= $categoria['id'] ?>"><?= htmlspecialchars($categoria['nombre']) ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
-            <div class="col-md-4 form-group">
-                <label for="codigo">CODIGO :</label>
-                <input type="text" class="form-control" name="codigo" id="codigo" maxlength="50" required>
+             <div class="col-md-4 form-group">
+                <label for="codigo">Código :</label>
+                <input type="text" name="codigo" id="codigo" class="form-control" maxlength="50" required>
             </div>
+
             <div class="col-md-4 form-group">
-                <label for="nombre">NOMBRE :</label>
-                <input type="text" class="form-control" name="nombre" id="nombre" maxlength="150" required>
+                <label for="nombre">Nombre :</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" maxlength="150" required>
             </div>
-            <div class="col-md-4 form-group">
-                <label for="descripcion">DESCRIPCION :</label>
-                <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="500" required>
+
+            <div class="col-md-8 form-group">
+                <label for="descripcion">Descripción :</label>
+                <textarea name="descripcion" id="descripcion" class="form-control" maxlength="500" required></textarea>
             </div>
-            <div class="col-md-4 form-group">
-                <label for="precio">PRECIO VENTA :</label>
-                <input type="number" class="form-control" name="precio" id="precio" required>
+
+            <div class="col-md-2 form-group">
+                <label for="precio">Precio :</label>
+                <input type="number" name="precio" id="precio" class="form-control" required min="0" step="0.1">
             </div>
-            <div class="col-md-4 form-group">
-                <label for="stock">STOCK ACTUAL :</label>
-                <input type="number" class="form-control" name="stock" id="stock" required>
+
+            <div class="col-md-2 form-group">
+                <label for="stock">Stock :</label>
+                <input type="number" name="stock" id="stock" class="form-control"  min="1" required value="1">
             </div>
+        </div>
+        <div>
+            <button class="btn btn-danger" type="button">Cancelar</button>
+            <button>Limpiar</button>
+            <button>Guardar</button>
         </div>
     </form>
 </div>

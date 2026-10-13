@@ -22,17 +22,17 @@
                 <input type="text" name="nombre" id="nombre" class="form-control" maxlength="150" required>
             </div>
 
-            <div class="col-md-4 form-group">
+            <div class="col-md-8 form-group">
                 <label for="descripcion">Descripción :</label>
                 <textarea name="descripcion" id="descripcion" class="form-control" maxlength="500" required></textarea>
             </div>
 
-            <div class="col-md-4 form-group">
+            <div class="col-md-2 form-group">
                 <label for="precio">Precio :</label>
-                <input type="number" name="precio" id="precio" class="form-control" step="0.01" required>
+                <input type="number" name="precio" id="precio" class="form-control" required>
             </div>
 
-            <div class="col-md-4 form-group">
+            <div class="col-md-2 form-group">
                 <label for="stock">Stock :</label>
                 <input type="number" name="stock" id="stock" class="form-control" step="1" min="0" required>
             </div>
