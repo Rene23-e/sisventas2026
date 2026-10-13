@@ -1,0 +1,26 @@
+﻿{
+    "Timestamp":  "2026-09-15 08:22:36",
+    "TargetPhpDir":  "C:\\wamp64\\bin\\php\\php8.2.29",
+    "MachinePath":  "C:\\wamp64\\bin\\php\\php8.2.29;C:\\Program Files\\Eclipse Adoptium\\jdk-25.0.0.36-hotspot\\bin;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nodejs\\;C:\\ProgramData\\ComposerSetup\\bin",
+    "UserPath":  "C:\\wamp64\\bin\\php\\php8.2.29;C:\\Users\\DPW\\.local\\bin;C:\\Users\\DPW\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\DPW\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Program Files\\JetBrains\\PhpStorm 2024.1\\bin;C:\\Users\\DPW\\AppData\\Roaming\\npm;C:\\Users\\DPW\\AppData\\Local\\GitHubDesktop\\bin;C:\\Users\\DPW\\AppData\\Roaming\\Composer\\vendor\\bin",
+    "IniFiles":  [
+                     {
+                         "OriginalPath":  "C:\\wamp64\\bin\\php\\php8.2.29\\php.ini",
+                         "BackupName":  "php.ini"
+                     },
+                     {
+                         "OriginalPath":  "C:\\wamp64\\bin\\php\\php8.2.29\\phpForApache.ini",
+                         "BackupName":  "phpForApache.ini"
+                     }
+                 ],
+    "ProfileFiles":  [
+                         {
+                             "OriginalPath":  "C:\\Users\\DPW\\Documents\\WindowsPowerShell\\profile.ps1",
+                             "BackupName":  "profile_1.ps1"
+                         },
+                         {
+                             "OriginalPath":  "C:\\Users\\DPW\\Documents\\WindowsPowerShell\\Microsoft.PowerShell_profile.ps1",
+                             "BackupName":  "profile_2.ps1"
+                         }
+                     ]
+}
