@@ -37,9 +37,9 @@
             </div>
         </div>
         <div>
-            <button class="btn btn-danger" type="button">Cancelar</button>
-            <button>Limpiar</button>
-            <button>Guardar</button>
+            <button class="btn btn-danger" type="button"><i class="fas fa-times"></i>Cancelar</button>
+            <button class="btn btn-info" type="reset"><i class="fas fa-trash"></i>Limpiar</button>
+            <button class="btn btn-success" type="submit"><i class="fas fa-save"></i>Guardar</button>
         </div>
     </form>
 </div>
