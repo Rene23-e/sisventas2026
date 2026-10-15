@@ -4,8 +4,8 @@
     <form action="" method="POST">
         <div class="row">
             <div class="col-md-4 form-group">
-                <label for="">Categoria :</label>
-                <select name="categoria_id" id="categoria_id" class="form-control" required>
+                <label for="categoria">Categoria :</label>
+                <select name="categoria" id="categoria" class="form-control" required>
                     <?php foreach($categorias as $categoria): ?>
                         <option value="<?= $categoria['id'] ?>"><?= htmlspecialchars($categoria['nombre']) ?></option>
                     <?php endforeach; ?>
@@ -39,5 +39,4 @@
         </div>
     </form>
 </div>
-
 <?php require __DIR__ . '/../../layouts/footer.php'; ?>
