@@ -46,8 +46,50 @@ class ProductosController extends Controller
             'pageTitle' => 'Nuevo Producto',
             'categorias' => $categorias
         ]);
+        
         exit;
     }
+    //metodo editar
+    public function editar($id){
+        // Estas categorías se utilizan para llenar el selector del formulario.
+        $categorias = $this->categoriasModel->categorias_select();
+        //buscar un producto por id
+        $producto = $this->productosModel->ver($id);
+        //var_dump($producto); 
+        // Envía a la vista los datos necesarios para renderizar el formulario.
+        $this->view('admin/productos/editar', [
+            'isAdmin'   => true,
+            'module'    => 'admin',
+            'pageTitle' => 'editar Producto',
+            'categorias' => $categorias,
+            'producto' => $producto
+        ]);
+        exit;
+    }
+
+    //metodo actualizar
+    public function actualizar(){
+        $data = $_POST;
+        if(!empty($data['categoria']) && !empty($data['codigo']) && !empty($data['nombre']) && !empty($data['descripcion']) && !empty($data['precio']) && !empty($data['stock'])){
+            // actualizar el producto
+            $respuesta = $this->productosModel->actualizar($data);
+            if($respuesta){
+                //notificar al usuario que el producto se guardo correctamente
+                $_SESSION['flash_success'] = "Producto actualizado correctamente";
+                //redireccion a la lista de productos
+                header('Location: ' . BASE_URL . '/admin/productos');
+            }else{
+                //notificar al usuario que hubo un error al guardar el producto
+                $_SESSION['flash_error'] = "Error al actualizar el producto";
+                //redireccion al formulario de nuevo producto
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+            }
+        }else{
+            $_SESSION['flash_error'] ="Error: Campos vacíos";
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        }
+    }
+
 public function guardar(){
     $data = $_POST;
 

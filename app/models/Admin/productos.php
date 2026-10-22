@@ -23,17 +23,37 @@ class Productos extends Model
         $preparado = self::$db->prepare($sql);
         return $preparado->execute($params);
     }
-
-    public function buscar() {
+    public function buscar(){  
         $sql = "SELECT p.*, c.nombre AS categoria_nombre FROM {$this->table} p INNER JOIN categorias c ON p.categoria_id = c.id";
         $preparado = self::$db->prepare($sql);
         $preparado->execute();
         return $preparado->fetchAll(PDO::FETCH_ASSOC);
+        
     }
-
-    public function ver($id) {}
-
-    public function actualizar() {}
-
-    public function eliminar() {}
+    public function ver(Int $id){
+        $params = [':id' => $id];
+        $sql = "SELECT * FROM {$this->table} WHERE id=:id";
+        $preparado = self::$db->prepare($sql);
+        $preparado->execute($params);
+        return $preparado->fetch(PDO::FETCH_ASSOC);
+    }
+   
+    
+  public function actualizar($data){
+        $params = [
+            ':categoria_id' => $data['categoria'],
+            ':codigo_sku' => $data['codigo'],
+            ':nombre' => $data['nombre'],
+            ':descripcion' => $data['descripcion'],
+            ':precio_venta' => $data['precio'],
+            ':stock_actual' => $data['stock'],
+            ':activo' => $data['estado'],
+            ':id' => $data['id']
+        ];
+        $sql="UPDATE {$this->table} SET categoria_id=:categoria_id, codigo_sku=:codigo_sku, nombre=:nombre, descripcion=:descripcion, precio_venta=:precio_venta, stock_actual=:stock_actual, activo=:activo WHERE id=:id";
+        $preparado = self::$db->prepare($sql);
+        return $preparado->execute($params);
+    }
+    public function eliminar(){
+    }
 }
