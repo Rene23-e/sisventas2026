@@ -1,6 +1,6 @@
 <?php require  __DIR__ . '/../../layouts/header.php'; ?>
 <div class="card p-3">
-    <h3>EDITAR DATOS DEL USUARIO</h3>
+    <h3>Editar Producto</h3>
     <form action="<?= BASE_URL ?>/admin/productos/actualizar" method="post">
         <input type="hidden" name="id" value="<?= $producto['id'] ?>">
         <div class="row">

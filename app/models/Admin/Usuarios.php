@@ -54,11 +54,22 @@ class Usuarios extends Model
             ':id'        => $data['id']
         ];
 
+        $sql = "UPDATE {$this->table}
+                SET rol_id = :rol_id,
+                    nombre = :nombre,
+                    apellidos = :apellidos,
+                    email = :email,
+                    telefono = :telefono,
+                    activo = :activo";
+
         if (!empty($data['password'])) {
             $params[':password_hash'] = password_hash($data['password'], PASSWORD_DEFAULT);
-        } else {
+            $sql .= ", password_hash = :password_hash";
         }
-$preparado = self::$db->prepare($sql);
+
+        $sql .= " WHERE id = :id";
+
+        $preparado = self::$db->prepare($sql);
         return $preparado->execute($params);
     }
 

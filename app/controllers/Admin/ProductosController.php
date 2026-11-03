@@ -73,28 +73,47 @@ class ProductosController extends Controller
     }
 
     //metodo actualizar
-      public function actualizar($data)
-{
-    $sql = "UPDATE usuarios
-            SET rol_id = :rol_id,
-                nombre = :nombre,
-                apellidos = :apellidos,
-                email = :email,
-                telefono = :telefono,
-                activo = :activo
-            WHERE id = :id";
+       public function actualizar(){
+        $data = $_POST;
+        $categorias = $this->categoriasModel->categorias_select();
 
-    $stmt = $this->db->prepare($sql);
+        if(!empty($data['categoria']) && !empty($data['codigo']) && !empty($data['nombre']) && !empty($data['descripcion']) && !empty($data['precio']) && !empty($data['stock'])){
+            // actualizar el producto
+            $respuesta = $this->productosModel->actualizar($data);
+            if($respuesta){
+                //notificar al usuario que el producto se guardo correctamente
+                $_SESSION['flash_success'] = "Producto actualizado correctamente";
+                //redireccion a la lista de productos
+                header('Location: ' . BASE_URL . '/admin/productos');
+            }else{
+                //notificar al usuario que hubo un error al guardar el producto
+                $_SESSION['flash_error'] = "Error al actualizar el producto";
+                //redireccion al formulario de nuevo producto
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+            }
+        }else{
+            $_SESSION['flash_error'] ="Error: Campos vacíos";
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+      $datos_2 = [
+            'id'           => $data['id'] ?? null,
+            'categoria_id' => $data['categoria'] ?? '',
+            'codigo_sku'   => $data['codigo'] ?? '',
+            'nombre'       => $data['nombre'] ?? '',
+            'descripcion'  => $data['descripcion'] ?? '',
+            'precio_venta' => $data['precio'] ?? '',
+            'stock_actual' => $data['stock'] ?? '',
+            'activo'       => $data['estado'] ?? 1,
+        ];
 
-    return $stmt->execute([
-        ':rol_id' => $data['rol_id'],
-        ':nombre' => $data['nombre'],
-        ':apellidos' => $data['apellidos'],
-        ':email' => $data['email'],
-        ':telefono' => $data['telefono'],
-        ':activo' => $data['activo'],
-        ':id' => $data['id']
-    ]);
+        $this->view('admin/productos/editar', [
+            'isAdmin'    => true,
+            'module'     => 'admin',
+            'pageTitle'  => 'Editar Producto',
+            'categorias' => $categorias,
+            'producto'   => $datos_2
+        ]);
+        exit;
+    }
 }
 public function guardar(){
     $data = $_POST;
