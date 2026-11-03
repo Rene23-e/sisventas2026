@@ -1,23 +1,71 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 use Core\Controller;
+use App\Models\Admin\Usuarios;
 
 class UsuariosController extends Controller
 {
     public function index()
     {
+        $usuarioModel = new Usuarios();
+        $usuarios = $usuarioModel->buscar();
+
         $this->view('admin/usuarios/index', [
             'module'    => 'admin',
-            'pageTitle' => 'Usuarios'
+            'pageTitle' => 'Usuarios',
+            'usuarios'  => $usuarios
         ]);
         exit;
     }
-    public function nuevo(){
+
+    public function nuevo()
+    {
         $this->view('admin/usuarios/nuevo', [
             'module'    => 'admin',
             'pageTitle' => 'Nuevo Usuario'
         ]);
+        exit;
+    }
+
+    public function guardar()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL . '/admin/usuarios');
+            exit;
+        }
+
+        $datos = [
+            'rol_id'    => filter_input(INPUT_POST, 'rol_id', FILTER_VALIDATE_INT),
+            'nombre'    => trim($_POST['nombre'] ?? ''),
+            'apellidos' => trim($_POST['apellidos'] ?? ''),
+            'email'     => trim($_POST['email'] ?? ''),
+            'password'  => $_POST['password'] ?? '',
+            'telefono'  => trim($_POST['telefono'] ?? ''),
+            'activo'    => isset($_POST['activo']) && $_POST['activo'] === '0' ? 0 : 1
+        ];
+
+        if (
+            !$datos['rol_id'] ||
+            $datos['nombre'] === '' ||
+            $datos['apellidos'] === '' ||
+            !filter_var($datos['email'], FILTER_VALIDATE_EMAIL) ||
+            $datos['password'] === ''
+        ) {
+            $_SESSION['flash_error'] = 'Completa todos los campos obligatorios con datos válidos.';
+            header('Location: ' . BASE_URL . '/admin/usuarios/nuevo');
+            exit;
+        }
+
+        $usuarioModel = new Usuarios();
+        if ($usuarioModel->registrar($datos)) {
+            $_SESSION['flash_success'] = 'Usuario registrado correctamente.';
+            header('Location: ' . BASE_URL . '/admin/usuarios');
+        } else {
+            $_SESSION['flash_error'] = 'No se pudo registrar el usuario.';
+            header('Location: ' . BASE_URL . '/admin/usuarios/nuevo');
+        }
         exit;
     }
 }

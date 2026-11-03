@@ -1,20 +1,25 @@
 <?php
 
 namespace App\Controllers\Admin;
-
+include_once __DIR__ . '/../../models/Admin/Categorias.php';
+include_once __DIR__ . '/../../models/Admin/Productos.php';
+include_once __DIR__ . '/../../models/Admin/Ventas.php';
 use Core\Controller;
 use App\Models\Admin\Categorias;
 use App\Models\Admin\Productos;
+use App\Models\Admin\Ventas;
 
 class ProductosController extends Controller
 {
 
     protected $categoriasModel;
     protected $productosModel;
+    protected $ventasModel;
     public function __construct()
     {
         $this->categoriasModel = new Categorias();
         $this->productosModel = new Productos();
+        $this->ventasModel = new Ventas();
     }
 
 
