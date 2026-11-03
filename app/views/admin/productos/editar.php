@@ -1,6 +1,6 @@
 <?php require  __DIR__ . '/../../layouts/header.php'; ?>
 <div class="card p-3">
-    <h3>Editar Producto</h3>
+    <h3>EDITAR DATOS DEL USUARIO</h3>
     <form action="<?= BASE_URL ?>/admin/productos/actualizar" method="post">
         <input type="hidden" name="id" value="<?= $producto['id'] ?>">
         <div class="row">
@@ -8,9 +8,7 @@
                 <label for="categoria">Categoría :</label>
                 <select name="categoria" id="categoria" class="form-control">
                     <?php foreach ($categorias as $categoria): ?>
-                        <option value="<?= $categoria['id'] ?>" <?php if ($categoria['id'] == $producto['categoria_id']) {
-                                                                    echo "selected";
-                                                                } ?>><?= $categoria['nombre'] ?></option>
+                        <option value="<?= $categoria['id'] ?>" <?php if ($categoria['id'] == $producto['categoria_id']) { echo "selected"; } ?>><?= $categoria['nombre'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -37,12 +35,8 @@
             <div class="col-md-2 form-group">
                 <label for="estado">Estado :</label>
                 <select name="estado" id="estado" class="form-control">
-                    <option value="1" <?php if ($producto['activo'] == 1) {
-                                            echo "selected";
-                                        } ?>>Activo</option>
-                    <option value="0" <?php if ($producto['activo'] == 0) {
-                                            echo "selected";
-                                        } ?>>Inactivo</option>
+                    <option value="1" <?php if ($producto['activo'] == 1) { echo "selected";} ?>>Activo</option>
+                    <option value="0" <?php if ($producto['activo'] == 0) {echo "selected"; } ?>>Inactivo</option>
                 </select>
             </div>
         </div>

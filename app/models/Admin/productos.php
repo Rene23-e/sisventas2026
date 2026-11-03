@@ -54,6 +54,31 @@ class Productos extends Model
         $preparado = self::$db->prepare($sql);
         return $preparado->execute($params);
     }
-    public function eliminar(){
-    }
-}
+public function eliminar($id)
+    {
+        self::$db->beginTransaction();
+
+        try {
+            $sql = "UPDATE {$this->table} SET activo = 0 WHERE id = :id AND activo = 1";
+            $stmt = self::$db->prepare($sql);
+            $stmt->bindValue(':id', (int) $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            if ($stmt->rowCount() === 0) {
+                self::$db->rollBack();
+                return false;
+            }
+
+            $stmt = self::$db->prepare(
+                'UPDATE sesiones SET activa = 0 WHERE usuario_id = :id AND activa = 1'
+            );
+            $stmt->bindValue(':id', (int) $id, PDO::PARAM_INT);
+            $stmt->execute();
+            self::$db->commit();
+
+            return true;
+        } catch (\Throwable $exception) {
+            if (self::$db->inTransaction()) {
+                self::$db->rollBack();
+            }
+            throw $exception;

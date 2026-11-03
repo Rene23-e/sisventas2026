@@ -29,6 +29,32 @@ class UsuariosController extends Controller
         exit;
     }
 
+    public function editar($id)
+    {
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+
+        if (!$id) {
+            header('Location: ' . BASE_URL . '/admin/usuarios');
+            exit;
+        }
+
+        $usuarioModel = new Usuarios();
+        $usuario = $usuarioModel->ver($id);
+
+        if (!$usuario) {
+            $_SESSION['flash_error'] = 'No se encontró el usuario.';
+            header('Location: ' . BASE_URL . '/admin/usuarios');
+            exit;
+        }
+
+        $this->view('admin/usuarios/editar', [
+            'module'    => 'admin',
+            'pageTitle' => 'Editar Usuario',
+            'usuario'   => $usuario
+        ]);
+        exit;
+    }
+
     public function guardar()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -66,6 +92,61 @@ class UsuariosController extends Controller
             $_SESSION['flash_error'] = 'No se pudo registrar el usuario.';
             header('Location: ' . BASE_URL . '/admin/usuarios/nuevo');
         }
+        exit;
+    }
+
+    public function actualizar()
+    {
+         $id = $_POST['id'];
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL . '/admin/usuarios');
+            exit;
+        }
+
+        $datos = [
+            'id'        => filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT),
+            'rol_id'    => filter_input(INPUT_POST, 'rol_id', FILTER_VALIDATE_INT),
+            'nombre'    => trim($_POST['nombre'] ?? ''),
+            'apellidos' => trim($_POST['apellidos'] ?? ''),
+            'email'     => trim($_POST['email'] ?? ''),
+            'password'  => $_POST['password'] ?? '',
+            'telefono'  => trim($_POST['telefono'] ?? ''),
+            'activo'    => isset($_POST['activo']) && $_POST['activo'] === '0' ? 0 : 1
+        ];
+
+        if (
+            !$datos['id'] ||
+            !$datos['rol_id'] ||
+            $datos['nombre'] === '' ||
+            $datos['apellidos'] === '' ||
+            !filter_var($datos['email'], FILTER_VALIDATE_EMAIL)
+        ) {
+            $_SESSION['flash_error'] = 'Datos inválidos para actualizar el usuario.';
+            header('Location: ' . BASE_URL . '/admin/usuarios');
+            exit;
+        }
+
+        $usuarioModel = new Usuarios();
+        if ($usuarioModel->actualizar($datos)) {
+            $_SESSION['flash_success'] = 'Usuario actualizado correctamente.';
+        } else {
+            $_SESSION['flash_error'] = 'No se pudo actualizar el usuario.';
+        }
+
+        header('Location: ' . BASE_URL . '/admin/usuarios');
+        exit;
+    }
+
+    public function eliminar($id)
+    {
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+
+        if ($id) {
+            $usuarioModel = new Usuarios();
+            $usuarioModel->eliminar($id);
+        }
+
+        header('Location: ' . BASE_URL . '/admin/usuarios');
         exit;
     }
 }

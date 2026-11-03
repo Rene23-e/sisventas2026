@@ -1,8 +1,8 @@
 <?php
 
-namespace app\models\Admin;
+namespace App\Models\Admin;
 
-use core\Model;
+use Core\Model;
 use PDO;
 
 class Usuarios extends Model
@@ -33,7 +33,7 @@ class Usuarios extends Model
         return $preparado->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function ver(Int $id)
+    public function ver(int $id)
     {
         $params = [':id' => $id];
         $sql = "SELECT * FROM {$this->table} WHERE id = :id";
@@ -55,15 +55,41 @@ class Usuarios extends Model
         ];
 
         if (!empty($data['password'])) {
-            $sql = "UPDATE {$this->table} SET rol_id = :rol_id, nombre = :nombre, apellidos = :apellidos,  email = :email, password_hash = :password_hash, telefono = :telefono, activo = :activo WHERE id = :id";
             $params[':password_hash'] = password_hash($data['password'], PASSWORD_DEFAULT);
         } else {
-            $sql = "UPDATE {$this->table} SET rol_id = :rol_id, nombre = :nombre, apellidos = :apellidos, email = :email, telefono = :telefono, activo = :activo  WHERE id = :id";
         }
-
-        $preparado = self::$db->prepare($sql);
+$preparado = self::$db->prepare($sql);
         return $preparado->execute($params);
     }
 
-    public function eliminar(Int $id){}
+  public function eliminar($id)
+    {
+        self::$db->beginTransaction();
+
+        try {
+            $sql = "UPDATE {$this->table} SET activo = 0 WHERE id = :id AND activo = 1";
+            $stmt = self::$db->prepare($sql);
+            $stmt->bindValue(':id', (int) $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            if ($stmt->rowCount() === 0) {
+                self::$db->rollBack();
+                return false;
+            }
+
+            $stmt = self::$db->prepare(
+                'UPDATE sesiones SET activa = 0 WHERE usuario_id = :id AND activa = 1'
+            );
+            $stmt->bindValue(':id', (int) $id, PDO::PARAM_INT);
+            $stmt->execute();
+            self::$db->commit();
+
+            return true;
+        } catch (\Throwable $exception) {
+            if (self::$db->inTransaction()) {
+                self::$db->rollBack();
+            }
+            throw $exception;
+        }
+    }
 }
