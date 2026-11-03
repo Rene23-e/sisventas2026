@@ -82,3 +82,6 @@ public function eliminar($id)
                 self::$db->rollBack();
             }
             throw $exception;
+        }
+    }
+}

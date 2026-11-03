@@ -6,29 +6,31 @@
   <?php
   if (\Core\Auth::esAdmin()): ?>
     <div class="col-md-2">
-      <div class="card text-center">
-        <div class="card-body">
-          <h5 class="card-title">Productos</h5>
-          <p class="display-5"><?= htmlspecialchars($isAdmin) ?></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <a href="<?= BASE_URL ?>/tutoria/miTutoria">
+      <a href="<?= BASE_URL ?>/admin/productos" class="text-decoration-none">
         <div class="card text-center">
           <div class="card-body">
-            <h5 class="card-title">Clientes</h5>
-            <p class="display-5"><?= $isAdmin ?></p>
+            <h5 class="card-title">Productos</h5>
+            <p class="display-5"><?= htmlspecialchars((string) $productos) ?></p>
           </div>
         </div>
       </a>
     </div>
     <div class="col-md-2">
-      <a href="<?= BASE_URL ?>/tutoria/miTutoria">
+      <a href="<?= BASE_URL ?>/admin/usuarios" class="text-decoration-none">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Usuarios</h5>
+            <p class="display-5"><?= htmlspecialchars((string) $usuarios) ?></p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-2">
+      <a href="<?= BASE_URL ?>/admin/ventas" class="text-decoration-none">
         <div class="card text-center">
           <div class="card-body">
             <h5 class="card-title">Ventas</h5>
-            <p class="display-5"><?= $isAdmin ?></p>
+            <p class="display-5"><?= htmlspecialchars((string) $ventas) ?></p>
           </div>
         </div>
       </a>

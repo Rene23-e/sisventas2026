@@ -17,15 +17,15 @@ class HomeController extends Controller
     public function index()
     {
         $db = (new Model())->getDB();
-        // 1. Periodo actual
-        /*$periodo = $db->query("SELECT nombre FROM sigi_periodo_academico ORDER BY fecha_inicio DESC LIMIT 1")
-            ->fetchColumn();
-        $docentes = $db->query("SELECT COUNT(*) FROM sigi_usuarios WHERE id_rol IN (SELECT id FROM sigi_roles WHERE nombre LIKE '%DOCENTE%')")->fetchColumn();
-*/
+        $productos = (int) $db->query('SELECT COUNT(*) FROM productos')->fetchColumn();
+        $usuarios = (int) $db->query('SELECT COUNT(*) FROM usuarios')->fetchColumn();
+        $ventas = (int) $db->query('SELECT COUNT(*) FROM ventas')->fetchColumn();
+
         $this->view('admin/index', [
-            //'periodo'   => $periodo,
-            //'docentes'  => $docentes,
-            'isAdmin'  => true,
+            'productos' => $productos,
+            'usuarios'  => $usuarios,
+            'ventas'    => $ventas,
+            'isAdmin'   => true,
             'pageTitle' => 'Sistema de Administración',
             'module'    => 'admin'
         ]);
