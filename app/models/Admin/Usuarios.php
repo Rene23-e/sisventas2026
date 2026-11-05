@@ -54,53 +54,45 @@ class Usuarios extends Model
             ':id'        => $data['id']
         ];
 
-        $sql = "UPDATE {$this->table}
-                SET rol_id = :rol_id,
-                    nombre = :nombre,
-                    apellidos = :apellidos,
-                    email = :email,
-                    telefono = :telefono,
-                    activo = :activo";
+        $sql = "UPDATE {$this->table} SET rol_id = :rol_id, nombre = :nombre, apellidos = :apellidos, email = :email, telefono = :telefono, activo = :activo";
 
-        if (!empty($data['password'])) {
-            $params[':password_hash'] = password_hash($data['password'], PASSWORD_DEFAULT);
-            $sql .= ", password_hash = :password_hash";
-        }
-
+        if (!empty($data['password'])) {$params[':password_hash'] = password_hash($data['password'], PASSWORD_DEFAULT); $sql .= ", password_hash = :password_hash";
+        } 
         $sql .= " WHERE id = :id";
 
         $preparado = self::$db->prepare($sql);
         return $preparado->execute($params);
     }
+public function eliminar($id)
+{
+    self::$db->beginTransaction();
 
-  public function eliminar($id)
-    {
-        self::$db->beginTransaction();
+    try {
+        // 1. Eliminar sesiones asociadas primero (por clave foránea)
+        $stmtSesiones = self::$db->prepare(
+            'DELETE FROM sesiones WHERE usuario_id = :id'
+        );
+        $stmtSesiones->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $stmtSesiones->execute();
 
-        try {
-            $sql = "UPDATE {$this->table} SET activo = 0 WHERE id = :id AND activo = 1";
-            $stmt = self::$db->prepare($sql);
-            $stmt->bindValue(':id', (int) $id, PDO::PARAM_INT);
-            $stmt->execute();
+        // 2. Eliminar el usuario de la tabla principal
+        $sql = "DELETE FROM {$this->table} WHERE id = :id";
+        $stmt = self::$db->prepare($sql);
+        $stmt->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $stmt->execute();
 
-            if ($stmt->rowCount() === 0) {
-                self::$db->rollBack();
-                return false;
-            }
-
-            $stmt = self::$db->prepare(
-                'UPDATE sesiones SET activa = 0 WHERE usuario_id = :id AND activa = 1'
-            );
-            $stmt->bindValue(':id', (int) $id, PDO::PARAM_INT);
-            $stmt->execute();
-            self::$db->commit();
-
-            return true;
-        } catch (\Throwable $exception) {
-            if (self::$db->inTransaction()) {
-                self::$db->rollBack();
-            }
-            throw $exception;
+        if ($stmt->rowCount() === 0) {
+            self::$db->rollBack();
+            return false;
         }
+
+        self::$db->commit();
+        return true;
+    } catch (\Throwable $exception) {
+        if (self::$db->inTransaction()) {
+            self::$db->rollBack();
+        }
+        throw $exception;
     }
+}
 }

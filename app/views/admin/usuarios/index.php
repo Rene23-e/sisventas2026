@@ -3,10 +3,9 @@
 <div class="card p-2">
     <h3>Lista de Usuarios</h3>
     <br>
-    <a href="<?= BASE_URL ?>/admin/usuarios/nuevo" class="btn btn-success col-2">Nuevo</a>
-    <table class="table-bordered m-3">
-        <thead>
-            <tr>
+    <a href="<?= BASE_URL ?>/admin/usuarios/nuevo" class="btn btn-success col-2">Nuevo</a><br>
+     <table class="table table-hover align-middle mb-0">
+        <thead class="table-primary text-primary text-uppercase border-bottom">            <tr>
                 <th>Nro</th>
                 <th>Rol</th>
                 <th>Nombre</th>
