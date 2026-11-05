@@ -7,7 +7,7 @@
             <div class="col-md-2 form-group">
                 <label for="rol_id">Rol :</label>
                 <select name="rol_id" id="rol_id" class="form-control" required autocomplete="off">
-                    <option value="">Seleccione un rol</option>
+                    <option value="">SELECCIONE UN ROL</option>
                     <option value="1">Administrador</option>
                     <option value="2">Cliente / Empleado</option>
                 </select>
