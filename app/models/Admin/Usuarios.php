@@ -88,11 +88,11 @@ public function eliminar($id)
 
         self::$db->commit();
         return true;
-    } catch (\Throwable $exception) {
+        } catch (\Throwable $exception) {
         if (self::$db->inTransaction()) {
             self::$db->rollBack();
         }
         throw $exception;
-    }
+        }
 }
 }

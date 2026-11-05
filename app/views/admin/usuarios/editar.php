@@ -3,7 +3,7 @@
 require __DIR__ . '/../../layouts/header.php'; ?>
 
 <div class="card p-3">
-    <h3>EDITAR DATOS DEL USUARIO</h3>
+    <h3 class="text-center text-success">EDITAR DATOS DEL USUARIO</h3>
     <form action="<?= BASE_URL ?>/admin/usuarios/actualizar" method="post">
         <input type="hidden" name="id" value="<?= htmlspecialchars($usuario['id']) ?>">
         

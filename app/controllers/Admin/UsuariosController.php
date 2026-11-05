@@ -140,12 +140,12 @@ class UsuariosController extends Controller
     {
         $id = filter_var($id, FILTER_VALIDATE_INT);
 
-        if ($id) {
-            $usuarioModel = new Usuarios();
-            $usuarioModel->eliminar($id);
+        if ($id) { $usuarioModel = new Usuarios();
+         $usuarioModel->eliminar($id);
         }
 
         header('Location: ' . BASE_URL . '/admin/usuarios');
-        exit;
+        exit; 
     }
+    
 }

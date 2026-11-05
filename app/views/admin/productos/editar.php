@@ -20,7 +20,7 @@
                 <label for="nombre">Nombre :</label>
                 <input type="text" class="form-control" name="nombre" id="nombre" maxlength="150" value="<?= htmlspecialchars($producto['nombre']) ?>" required>
             </div>
-            <div class="col-md-8 form-group">
+            <div class="col-md-6 form-group">
                 <label for="descripcion">Descripción :</label>
                 <textarea name="descripcion" id="descripcion" required class="form-control" maxlength="500" rows="3"><?= htmlspecialchars($producto['descripcion']) ?></textarea>
             </div>
@@ -40,7 +40,7 @@
                 </select>
             </div>
         </div>
-        <div>
+        <div class="mt-3 text-center">
             <a class="btn btn-danger" href="<?= BASE_URL ?>/admin/productos"><i class="fas fa-times"></i> Cancelar</a>
             <button class="btn btn-info" type="reset"><i class="fas fa-trash"></i> Limpiar</button>
             <button class="btn btn-success" type="submit"><i class="fas fa-save"></i> Actualizar</button>
